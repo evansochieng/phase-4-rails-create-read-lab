@@ -6,7 +6,7 @@ class PlantsController < ApplicationController
     #display a list of all plants
     def index
         plants = Plant.all
-        render json: plants
+        render json: plants, status: :ok
     end
 
     #create a new plant
@@ -18,7 +18,12 @@ class PlantsController < ApplicationController
     #display specific plant
     def show
         plant = Plant.find_by(id: params[:id])
-        render json: plant
+
+        if plant
+            render json: plant, status: :ok
+        else
+            render json: {error: "Plant not found"}, status: :not_found
+        end
     end
 
     # refactor parameters (Strong Parameters)
